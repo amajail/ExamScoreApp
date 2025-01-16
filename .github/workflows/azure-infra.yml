@@ -1,0 +1,24 @@
+name: Deploy Azure Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-infrastructure:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy Bicep
+      run: |
+        az group create --name MyResourceGroup --location "East US"
+        az deployment group create --resource-group MyResourceGroup --template-file main.bicep

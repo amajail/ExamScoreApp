@@ -1,0 +1,7 @@
+Compare this facts that are true {{ScorePlugins.GetFacts $rightAnswer}}
+
+with this ones from the user {{ScorePlugins.GetFacts $answer}}
+
+Score the facts from 1 to 10
+Respond: Your score is (score).
+And a sentence to explain why is that score

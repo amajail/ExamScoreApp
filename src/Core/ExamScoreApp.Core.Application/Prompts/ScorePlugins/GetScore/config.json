@@ -1,0 +1,28 @@
+{
+    "schema": 1,
+    "type": "completion",
+    "description": "From two list of facts compare them and make a score",
+    "execution_settings": {
+        "default": {
+            "max_tokens": 800,
+            "temperature": 0
+        }
+    },
+    "input_variables": [
+        {
+            "name": "rightAnswer",
+            "description": "The correct answer",
+            "required": true
+        },
+        {
+            "name": "answer",
+            "description": "The answer provided by a user",
+            "required": true
+        },
+        {
+            "name": "numberOfFacts",
+            "description": "The number of facts to be retrieved",
+            "required": true
+        }
+    ]
+}

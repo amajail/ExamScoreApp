@@ -1,0 +1,21 @@
+Identify the user's intent. Return one of the following values:
+
+SuggestQuestions - If the user wants to convert an amount in one currency to another
+TakeNote - If the user wants to take a note and save to the note repository, could be any other sentence.
+MakeReport - If the user wants to make the report
+Unknown - If the user's intent matches none of the above
+
+Examples:
+{{$user}}El candidato conoce el patron builder.
+{{$bot}}Takenote
+
+{{$user}}No trabajo con azure functions.
+{{$bot}}Takenote
+
+{{$user}}Preguntas de patrones?
+{{$bot}}SuggestQuestions
+
+{{$user}}Preguntas de Azure?
+{{$bot}}SuggestQuestions
+
+user input: {{$input}}
