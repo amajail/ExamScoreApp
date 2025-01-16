@@ -1,11 +1,5 @@
-using System.Text.Json;
-using ExamScoreApp.Api.Models;
-using ExamScoreApp.Core.Application.Services;
 using ExamScoreApp.Core.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace ExamScoreApp.Api.Controllers
 {
@@ -21,15 +15,11 @@ namespace ExamScoreApp.Api.Controllers
         }
 
         [HttpPost("generate-score")]
-        public async Task<IActionResult> GenerateScore([FromBody] string rightAnswer,
-                                                       string answer,
-                                                       CancellationToken cancellationToken)
+        public async Task<IActionResult> GenerateScore([FromBody] GenerateScoreRequest request, CancellationToken cancellationToken)
         {
-
-            var report = await _examScoreService.GenerateScoreAsync(rightAnswer, answer, cancellationToken);
+            var report = await _examScoreService.GenerateScoreAsync(request.RightAnswer, request.Answer, cancellationToken);
             return Ok(report);
         }
-
 
         [HttpPost("get-score-facts")]
         public async Task<IActionResult> GenerateScoreFromFacts([FromBody] FactsRequest request, CancellationToken cancellationToken)
@@ -46,6 +36,11 @@ namespace ExamScoreApp.Api.Controllers
         }
     }
 
+    public class GenerateScoreRequest
+    {
+        public string RightAnswer { get; set; }
+        public string Answer { get; set; }
+    }
     public class GenerateFactsRequest
     {
         public string Statement { get; set; }

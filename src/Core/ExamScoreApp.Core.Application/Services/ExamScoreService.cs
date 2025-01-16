@@ -11,6 +11,7 @@ namespace ExamScoreApp.Core.Application.Services
     {
         private readonly ILogger _logger = logger;
         private readonly Kernel _kernel = semanticKernel;
+        private KernelPlugin _scorePlugin = semanticKernel.ImportPluginFromPromptDirectory("Prompts/ScorePlugins");
         public Task<string> GenerateRightAnswerAsync(string question, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -23,16 +24,20 @@ namespace ExamScoreApp.Core.Application.Services
         {
             try
             {
+                var numberOfFacts = 5;
+
                 _logger.LogInformation($"Generating Score: Right answer: {rightAnswer} Student answer {answer}", rightAnswer, answer);
 
-                var promptTemplate = "";
+                // Construct arguments
+                var arguments = new KernelArguments()
+                {
+                    ["rightAnswer"] = rightAnswer,
+                    ["answer"] = answer,
+                    ["numberOfFacts"] = numberOfFacts
+                };
 
-                var scoreFunction = _kernel.CreateFunctionFromPrompt(promptTemplate);
-
-                var score = await scoreFunction.InvokeAsync(_kernel, new() {
-                    {"rightAnswer", rightAnswer},
-                    {"answer", answer}
-                    }, stoppingToken);
+                // Run the Function
+                var score = await _kernel.InvokeAsync(_scorePlugin["GetScore"], arguments);
 
                 return score.ToString();
             }
@@ -84,13 +89,11 @@ namespace ExamScoreApp.Core.Application.Services
             {
                 _logger.LogInformation("Generating facts from statement: {Statement}", statement);
 
-                var scorePlugins = _kernel.ImportPluginFromPromptDirectory("Prompts/ScorePlugins");
-
                 // Construct arguments
                 var arguments = new KernelArguments() { ["statement"] = statement, ["numberOfFacts"] = numberOfFacts };
 
                 // Run the Function called Joke
-                var result = await _kernel.InvokeAsync(scorePlugins["GetFacts"], arguments);
+                var result = await _kernel.InvokeAsync(_scorePlugin["GetFacts"], arguments);
 
                 return result.ToString();
             }
