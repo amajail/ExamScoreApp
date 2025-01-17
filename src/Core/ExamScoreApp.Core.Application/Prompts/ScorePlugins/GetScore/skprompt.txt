@@ -1,7 +1,13 @@
-Compare this facts that are true {{ScorePlugins.GetRightAnswer}}
+Compare this facts that are true {{$rightFacts}}
 
-with this ones from the user {{ScorePlugins.GetFacts $answer}}
+with this ones from the user {{$userFacts}}
 
-Score the facts from 1 to 10
-Respond: Your score is (score).
-And a sentence to explain why is that score
+Score the user's facts from 1 to 10
+Respond with a JSON object with the following structure:
+{
+  "score": [score],
+  "explanation": "[explanation]",
+  "missingFacts": ["[fact1]", "[fact2]", ...],
+  "wrongFacts": ["[fact1]", "[fact2]", ...] ,
+  "rightFacts": ["[fact1]", "[fact2]", ...]
+}

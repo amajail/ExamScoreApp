@@ -10,19 +10,14 @@
     },
     "input_variables": [
         {
-            "name": "question",
-            "description": "The correct answer",
+            "name": "rightFacts",
+            "description": "The facts that are correct",
             "required": true
         },
         {
-            "name": "answer",
-            "description": "The answer provided by a user",
+            "name": "userFacts",
+            "description": "The facts that are correct",
             "required": true
-        },
-        {
-            "name": "numberOfFacts",
-            "description": "The number of facts to be retrieved",
-            "required": true
-        }
+        }        
     ]
 }
