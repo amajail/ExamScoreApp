@@ -10,7 +10,7 @@
     },
     "input_variables": [
         {
-            "name": "rightAnswer",
+            "name": "question",
             "description": "The correct answer",
             "required": true
         },

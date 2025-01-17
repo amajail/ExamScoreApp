@@ -1,0 +1,23 @@
+{
+    "schema": 1,
+    "type": "completion",
+    "description": "Get the right answer for a question",
+    "execution_settings": {
+        "default": {
+            "max_tokens": 800,
+            "temperature": 0
+        }
+    },
+    "input_variables": [
+        {
+            "name": "context",
+            "description": "The the context of the question",
+            "required": true
+        },
+        {
+            "name": "question",
+            "description": "The question to be answered",
+            "required": true
+        }
+    ]
+}
