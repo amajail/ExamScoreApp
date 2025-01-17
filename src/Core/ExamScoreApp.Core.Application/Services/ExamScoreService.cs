@@ -11,28 +11,31 @@ namespace ExamScoreApp.Core.Application.Services
     {
         private readonly ILogger _logger = logger;
         private readonly Kernel _kernel = semanticKernel;
-        public Task<string> GenerateRightAnswerAsync(string question, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+        private KernelPlugin _scorePlugin = semanticKernel.ImportPluginFromPromptDirectory("Prompts/ScorePlugins");
 
         // Method to generate the interview report
-        public async Task<string> GenerateScoreAsync(string rightAnswer,
+        public async Task<string> GenerateScoreAsync(string question,
                                                      string answer,
                                                      CancellationToken stoppingToken)
         {
             try
             {
-                _logger.LogInformation($"Generating Score: Right answer: {rightAnswer} Student answer {answer}", rightAnswer, answer);
+                var numberOfFacts = 5;
+                var context = "Finance is essential to the management of a business or organization, as it ensures good financial protocol, safeguards, and tools, making it easier to run a successful business.";
 
-                var promptTemplate = "";
+                _logger.LogInformation($"Generating Score: Question: {question} Student answer {answer}", question, answer);
 
-                var scoreFunction = _kernel.CreateFunctionFromPrompt(promptTemplate);
+                // Construct arguments
+                var arguments = new KernelArguments()
+                {
+                    ["context"] = context,
+                    ["question"] = question,
+                    ["answer"] = answer,
+                    ["numberOfFacts"] = numberOfFacts
+                };
 
-                var score = await scoreFunction.InvokeAsync(_kernel, new() {
-                    {"rightAnswer", rightAnswer},
-                    {"answer", answer}
-                    }, stoppingToken);
+                // Run the Function
+                var score = await _kernel.InvokeAsync(_scorePlugin["GetScore"], arguments, stoppingToken);
 
                 return score.ToString();
             }
@@ -51,23 +54,17 @@ namespace ExamScoreApp.Core.Application.Services
             {
                 _logger.LogInformation("Generating Score from facts: Right facts: {RightFacts} Student facts {Facts}", rightFacts, facts);
 
-                var promptTemplate =
-                @"Compare this facts that are true {{$rightFacts}}
+                // Construct arguments
+                var arguments = new KernelArguments()
+                {
+                    ["rightFacts"] = rightFacts,
+                    ["facts"] = facts
+                };
 
-                with this ones from the user {{$facts}}
+                // Run the Function called Get Facts
+                var result = await _kernel.InvokeAsync(_scorePlugin["GetFacts"], arguments);
 
-                Score the facts from 1 to 10
-                Respond: Your score is (score).
-                And a sentence to explaining why that score.";
-
-                var scoreFunction = _kernel.CreateFunctionFromPrompt(promptTemplate);
-
-                var score = await scoreFunction.InvokeAsync(_kernel, new() {
-                    {"rightFacts", rightFacts},
-                    {"facts", facts}
-                    }, stoppingToken);
-
-                return score.ToString();
+                return result.ToString();
             }
             catch (Exception ex)
             {
@@ -84,13 +81,42 @@ namespace ExamScoreApp.Core.Application.Services
             {
                 _logger.LogInformation("Generating facts from statement: {Statement}", statement);
 
-                var scorePlugins = _kernel.ImportPluginFromPromptDirectory("Prompts/ScorePlugins");
+                // Construct arguments
+                var arguments = new KernelArguments()
+                {
+                    ["statement"] = statement,
+                    ["numberOfFacts"] = numberOfFacts
+                };
+
+                // Run the Function called Get Facts
+                var result = await _kernel.InvokeAsync(_scorePlugin["GetFacts"], arguments, stoppingToken);
+
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error generating score");
+                return string.Empty;
+            }
+        }
+
+        public async Task<string> GenerateRightAnswerAsync(string context,
+                                                           string question,
+                                                           CancellationToken stoppingToken)
+        {
+            try
+            {
+                _logger.LogInformation("Generating right answer from question: {Question}", question);
 
                 // Construct arguments
-                var arguments = new KernelArguments() { ["statement"] = statement, ["numberOfFacts"] = numberOfFacts };
+                var arguments = new KernelArguments()
+                {
+                    ["context"] = context,
+                    ["question"] = question
+                };
 
-                // Run the Function called Joke
-                var result = await _kernel.InvokeAsync(scorePlugins["GetFacts"], arguments);
+                // Run the Function called Get Facts
+                var result = await _kernel.InvokeAsync(_scorePlugin["GetRightAnswer"], arguments, stoppingToken);
 
                 return result.ToString();
             }

@@ -1,4 +1,4 @@
-Compare this facts that are true {{ScorePlugins.GetFacts $rightAnswer}}
+Compare this facts that are true {{ScorePlugins.GetRightAnswer}}
 
 with this ones from the user {{ScorePlugins.GetFacts $answer}}
 

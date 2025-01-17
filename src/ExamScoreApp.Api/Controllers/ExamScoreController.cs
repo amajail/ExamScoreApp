@@ -1,11 +1,5 @@
-using System.Text.Json;
-using ExamScoreApp.Api.Models;
-using ExamScoreApp.Core.Application.Services;
 using ExamScoreApp.Core.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace ExamScoreApp.Api.Controllers
 {
@@ -21,15 +15,11 @@ namespace ExamScoreApp.Api.Controllers
         }
 
         [HttpPost("generate-score")]
-        public async Task<IActionResult> GenerateScore([FromBody] string rightAnswer,
-                                                       string answer,
-                                                       CancellationToken cancellationToken)
+        public async Task<IActionResult> GenerateScore([FromBody] GenerateScoreRequest request, CancellationToken cancellationToken)
         {
-
-            var report = await _examScoreService.GenerateScoreAsync(rightAnswer, answer, cancellationToken);
+            var report = await _examScoreService.GenerateScoreAsync(request.Question, request.Answer, cancellationToken);
             return Ok(report);
         }
-
 
         [HttpPost("get-score-facts")]
         public async Task<IActionResult> GenerateScoreFromFacts([FromBody] FactsRequest request, CancellationToken cancellationToken)
@@ -44,8 +34,26 @@ namespace ExamScoreApp.Api.Controllers
             var response = await _examScoreService.GenerateFactsAsync(request.Statement, request.NumberOfFacts, cancellationToken);
             return Ok(response);
         }
+
+        [HttpPost("get-right-answer")]
+        public async Task<IActionResult> GenerateRightAnswerAsync([FromBody] GenerateRightAnswerRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _examScoreService.GenerateRightAnswerAsync(request.Context, request.Question, cancellationToken);
+            return Ok(response);
+        }        
     }
 
+    public class GenerateRightAnswerRequest
+    {
+        public string Context { get; set; }
+        public string Question { get; set; }
+    }
+
+    public class GenerateScoreRequest
+    {
+        public string Question { get; set; }
+        public string Answer { get; set; }
+    }
     public class GenerateFactsRequest
     {
         public string Statement { get; set; }
