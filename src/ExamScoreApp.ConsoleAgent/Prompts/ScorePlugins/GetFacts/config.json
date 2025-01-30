@@ -1,0 +1,23 @@
+{
+    "schema": 1,
+    "type": "completion",
+    "description": "Get facts from a statement",
+    "execution_settings": {
+        "default": {
+            "max_tokens": 800,
+            "temperature": 0
+        }
+    },
+    "input_variables": [
+        {
+            "name": "numberOfFacts",
+            "description": "The number of facts to be retrieved",
+            "required": true
+        },
+        {
+            "name": "statement",
+            "description": "The statement to get the facts from",
+            "required": true
+        }
+    ]
+}

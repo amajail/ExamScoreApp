@@ -1,0 +1,6 @@
+Answer the question based on only the context below.
+Respond "Unsure about answer" if not sure about the answer.
+The answer should be short and concise. Only State "[The answer to the problem]"
+Context: {{$context}}
+Question: {{$question}}
+Answer:
