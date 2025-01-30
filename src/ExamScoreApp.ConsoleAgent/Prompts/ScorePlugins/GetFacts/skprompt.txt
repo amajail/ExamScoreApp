@@ -1,0 +1,2 @@
+Extract {{$numberOfFacts}} facts from this statement: {{$statement}}
+The answer has to be a bullet point list

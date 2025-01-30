@@ -15,13 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamScoreApp.Console", "Exa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamScoreApp.Infrastructure", "ExamScoreApp.Infrastructure\ExamScoreApp.Infrastructure.csproj", "{6B065039-F06D-4EBC-9068-027BEAACB192}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamScoreApp.ConsoleAgent", "ExamScoreApp.ConsoleAgent\ExamScoreApp.ConsoleAgent.csproj", "{F6D15FC0-0E2E-4EE5-A7A6-358F6C59348C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A963A423-8A70-422F-971C-40ECEE1A70B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,6 +43,13 @@ Global
 		{6B065039-F06D-4EBC-9068-027BEAACB192}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B065039-F06D-4EBC-9068-027BEAACB192}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B065039-F06D-4EBC-9068-027BEAACB192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D15FC0-0E2E-4EE5-A7A6-358F6C59348C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D15FC0-0E2E-4EE5-A7A6-358F6C59348C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D15FC0-0E2E-4EE5-A7A6-358F6C59348C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D15FC0-0E2E-4EE5-A7A6-358F6C59348C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EC8B6D02-3347-4B7A-B706-C258DA774F0A} = {ECA5FE48-BF7F-48AA-9270-23627E356C44}
